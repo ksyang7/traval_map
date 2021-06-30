@@ -5,6 +5,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -44,28 +46,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val marker1 = MarkerOptions()
                 .position(st1)
-                .title("Marker in bangA")
+                .title("방아다리약수터 ")
                 .icon(discriptor)
 
         mMap.addMarker(marker1)
 
         val marker2 = MarkerOptions()
             .position(st2)
-            .title("Marker in bangA")
+            .title("오죽헌")
             .icon(discriptor)
 
         mMap.addMarker(marker2)
 
         val marker3 = MarkerOptions()
             .position(st3)
-            .title("Marker in bangA")
+            .title("경포비스타호텔 ")
             .icon(discriptor)
 
         mMap.addMarker(marker3)
 
         val marker4 = MarkerOptions()
             .position(st4)
-            .title("Marker in bangA")
+            .title("묵호항 ")
             .icon(discriptor)
 
         mMap.addMarker(marker4)
@@ -79,7 +81,41 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         var camera = CameraUpdateFactory.newCameraPosition(cameraOption)
         mMap.moveCamera(camera)
+
+
     }
+/*
+    // 맵 클릭 리스터 - 맵 클릭하면 카트뷰 띄움
+    googleMap!!.setOnMarkerClickListener (object : GoogleMap.OnMarkerClickListener {
+        override fun onMarkerClick(marker: Marker): Boolean {
+            card_view.visibility = View.VISIBLE
+            return false
+        }
+    })
+    // 맵 클릭 리스터 - 맵 클릭하면 카트뷰 없어짐
+    googleMap!!.setOnMapClickListener (object :GoogleMap.OnMarkerClickListener{
+        override  fun onMapClick(latLng: LatLng){
+            card_view.visiblility = View.GONE
+        }
+    })
+
+*/
+fun onMarkerClick(marker: Marker) : Boolean{
+        val clickCount = marker.tag as? Int
+
+        clickCount?.let{
+            val newClickCount = it + 1
+            marker.tag = newClickCount
+            Toast.makeText(
+                    this,
+                    "${marker.title} has been clicked $newClickCount times. ",
+                    Toast.LENGTH_SHORT
+            ).show()
+        }
+    return false
+}
+
+
 
     fun getDiscriptorFromDrawable(drawableId : Int) : BitmapDescriptor {
         var bitmapDrawable:BitmapDrawable
